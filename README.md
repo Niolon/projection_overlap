@@ -1,7 +1,7 @@
 # Overlap calculator
 This script can calculate the overlap between two pi systems as described in my PhD thesis. There are multiple ways to use this app.
 
-1. A live version should exist at [https://overlap.streamlit.app/]
+1. A live version should exist at https://overlap.streamlit.app/
 
 2. You can use the GUI version offline by following these instructions
  - Installation/start:
