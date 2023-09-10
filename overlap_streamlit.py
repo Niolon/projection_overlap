@@ -2,10 +2,43 @@ import streamlit as st
 from io import StringIO
 from overlap import options_from_config, overlap_calculation, log, formatter
 import logging
+import base64
 import textwrap
+
+def render_svg(svg):
+    """Renders the given svg string."""
+    b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
+    html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
+    st.write(html, unsafe_allow_html=True)
 
 
 st.title('Overlap calculator beta')
+
+st.markdown(textwrap.dedent("""
+    *by Paul Niklas Ruth (paul.n.ruth@durham.ac.uk)*
+
+    This script calculates the overlap between two moieties as the quotient of
+    projected areas. This means the mean plane through a first moiety is determined.
+    Subsequently the atomic positions of both moieties are projected onto that plane
+    and two polygons are constructed from the two investigated moieties. The overlap
+    can now be calculated as the quotient of the intersection area and the area of the
+    first moiety polygon.
+
+    The algorithm is a reimplementation of the one described in my PhD thesis (see references).
+
+    ### References:
+
+    If you use this website in you research cite the following two references.
+
+    - P. N. Ruth, Method Development for Benchmarking Key Interactions in Quantum Crystallography, p. 39, http://dx.doi.org/10.53846/goediss-9798
+
+    - To be added when on github
+
+    ### Program
+
+    The program will runand output the result once all necessary information has been filled in and will adapt interactively (Thanks to Streamlit).
+
+""").strip())
 
 uploaded_cif = st.file_uploader("Upload a cif file")
 with st.expander("See explanation"):
@@ -41,42 +74,94 @@ with st.expander("See explanation"):
 conditions.append(atoms_string1 != 'x, y, z: atom_names')
 conditions.append(atoms_string2 != 'x, y, z: atom_names')
 
-search_mol2 = st.checkbox('Try symmetry equivalent positions for molecule 2')
+search_mol2 = st.checkbox('Search best symmetry equivalent position for molecule 2')
 with st.expander("See explanation"):
     st.markdown(textwrap.dedent("""
         If active try to find the molecule 2 with the the maximum overlap within
         the given search parameters by applying the unit cell symmetry operations,
-        as well as translation to neighbouring cells.
+        as well as translation to neighbouring cells. The input parameters still
+        need to form a closed polygon with the given symmetry elements and
+        atom names.
     """).strip())
 
 if search_mol2:
     min_distance = st.number_input(
-        'Minimal distance between overlapping moieties.',
+        'Minimal distance between two atoms in overlapping moieties.',
         min_value=0.0,
         max_value=20.0,
         value=0.7
     )
+    with st.expander("See explanation"):
+        st.markdown(textwrap.dedent("""
+            If any two atoms between the two input moieties are closer than this value
+            in Angstrom, this overlap will not be considered. Prevents
+            self-overlap and to a degree enables investigation of disordered
+            moieties.
+        """).strip())
 
     max_distance = st.number_input(
-        'Maximal distance between overlapping moieties.',
+        'Maximal distance between two atoms in overlapping moieties.',
         min_value=1.0,
         max_value=22.0,
         value=5.0
     )
 
+    with st.expander("See explanation"):
+        st.markdown(textwrap.dedent("""
+            If no two atoms between the two input moieties are closer than this value
+            in Angstrom, this overlap will not be considered. A smaller value will
+            speed up the investigation and prevent overlap calculations between non-adjacent
+            molecules.
+        """).strip())
+
     max_angle_diff= st.number_input(
         'Maximal angle between molecular planes in degree.',
         min_value=0.0,
-        max_value=90,
+        max_value=90.0,
         value=45.0
     )
+
+    with st.expander("See explanation"):
+        st.markdown(textwrap.dedent("""
+            If the angle between the normal vectors of the mean planes of the two moieties
+            is larger than this value in degree, the overlap will not be considered.
+            This prevents the calculation of overlaps in T-shaped arrangements.
+        """).strip())
 
     min_overlap = st.number_input(
         'Minimal overlap to be considered in the the search in percent.',
         min_value=0.0,
         max_value=100.0,
-        value=0.
+        value=1.
     )
+    with st.expander("See explanation"):
+        st.markdown(textwrap.dedent("""
+            If the calculated overlap between moieties is smaller than this value in percent
+            the overlap is not considered.
+        """).strip())
+
+    n_neighbour_cells = st.number_input(
+        'Number of translations to check into neighbouring cells',
+        min_value=0,
+        max_value=5,
+        value=1
+    )
+
+    with st.expander("See explanation"):
+        st.markdown(textwrap.dedent("""
+            Number of neighbouring cells to be considered in searching for the symmetry of
+            the second moiety. This value might be needed if a lot of your fractional
+            coordinates are located outside of the base unit cell (so the coordinates
+            are 1.523 or something similar). In that case you might want to recentre your
+            molecule in the unit cell. Large values will slow down the script and might
+            incur weight times.
+        """).strip())
+else:
+    min_distance = None
+    max_distance = None
+    max_angle_diff = None
+    min_overlap = 0.0
+    n_neighbour_cells = None
 
 
 direction_string = st.text_input(
@@ -100,9 +185,44 @@ with st.expander("See explanation"):
 
         atom(C2) is an atom position of an atom which is available with the symmetry x, y, z in either Molecule 1 or
         Molecule 2. If a symmetry equivalent position is needed, it can only be input as position().
+
+        ### Example
+        For a given naphtalene molecule with the following atom names.
+    """).strip())
+
+    with open('images/reference_explanation.svg', 'r') as fobj:
+        render_svg(fobj.read())
+
+    st.markdown(textwrap.dedent("""
+        We would like the reference vector to point from the centroid of this molecule to the centre
+        centre of one of the outermost bonds to orient this direction horizontally.
+
+        The input reference direction would be: "1 0: centroid(1), atom(C2) atom(C3)"
+
+        or alternatively "1 0: centroid(1), atom(C7) atom(C8)"
+
+        Note:
+
+        The determination becomes more robust the longer the distance from the centroid actually is.
+        A less robust alternative therefore would be: "0 1: centroid(1), atom(C10)".
     """).strip())
 
 conditions.append(direction_string != '1 0: centroid(1), atom(atom_name1) atom(atom_name2)')
+
+with st.expander("Plotting options"):
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        overlap_colour = st.color_picker('Colour of overlap area', value='#001242')
+    with col2:
+        reference_colour = st.color_picker('Colour of reference moiety area', value='#7EA8BE')
+    with col3:
+        edge_colour = st.color_picker('Colour of polygon edges', value='#a0a0a0')
+    edge_width = st.number_input(
+        'Line width of the drawn polygon edges',
+        min_value=0.0,
+        max_value=50.0,
+        value=3.0
+    )
 
 
 if all(conditions):
@@ -117,13 +237,14 @@ if all(conditions):
         'min_distance': min_distance,
         'max_distance': max_distance,
         'max_angle_diff': max_angle_diff,
-        'min_overlap_ratio': min_overlap,
-        'n_neighbour_cells': 3
+        'min_overlap_ratio': min_overlap / 100,
+        'n_neighbour_cells': n_neighbour_cells
     }
     draw = {
-        'overlap_colour': '#001242',
-        'reference_colour': '#7EA8BE',
-        'edge_colour': '#a0a0a0',
+        'overlap_colour': overlap_colour,
+        'reference_colour': reference_colour,
+        'edge_colour': edge_colour,
+        'line_width': edge_width,
         'output_file': 'web.display',
         'output_dpi': 300.0
     }

@@ -894,10 +894,22 @@ def draw_polygons(coords_cent_rot1: np.ndarray, coords_cent_rot2: np.ndarray, re
     ax.fill(inter_x, inter_y, facecolor=draw['overlap_colour'], edgecolor='#00000000')
 
     for start, end in zip(concat1[:-1], concat1[1:]):
-        ax.plot((start[0], end[0]), (start[1], end[1]), c=draw['edge_colour'])
+        ax.plot(
+            (start[0], end[0]),
+            (start[1], end[1]),
+            c=draw['edge_colour'],
+            linewidth=draw['line_width'],
+            solid_capstyle='round'
+        )
 
     for start, end in zip(concat2[:-1], concat2[1:]):
-        ax.plot((start[0], end[0]), (start[1], end[1]), c=draw['edge_colour'])
+        ax.plot(
+            (start[0], end[0]),
+            (start[1], end[1]),
+            c=draw['edge_colour'],
+            linewidth=draw['line_width'],
+            solid_capstyle='round'
+        )
 
     ax.axis('off');
     log.info('')
@@ -946,6 +958,7 @@ def options_from_config(
         'overlap_colour': parser['figure']['overlap_colour'],
         'reference_colour': parser['figure']['reference_colour'],
         'edge_colour': parser['figure']['edge_colour'],
+        'line_width': parser['figure']['line_width'],
         'output_file': parser['figure']['output_file'],
         'output_dpi': parser['figure'].getfloat('output_dpi')
     }

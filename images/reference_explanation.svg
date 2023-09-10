@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="47.516mm" height="29.467mm" version="1.1" viewBox="0 0 47.516 29.467" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+ <g transform="translate(-22.908 -16.017)">
+  <g transform="matrix(.6 0 0 .6 -1.5927 -32.976)">
+   <g fill="none" stroke="#000" stroke-width="1.6667">
+    <path d="m80.752 115.17-15.274 8.8186-15.274-8.8186v-17.637l15.274-8.8186 15.274 8.8186z"/>
+    <path transform="translate(30.534)" d="m80.752 115.17-15.274 8.8186-15.274-8.8186v-17.637l15.274-8.8186 15.274 8.8186z"/>
+   </g>
+   <g font-family="Bahnschrift" font-size="7.0556px" stroke-width=".44097">
+    <g text-anchor="middle">
+     <text x="95.769897" y="86.715752" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="95.769897" y="86.715752" font-size="7.0556px" stroke-width=".44097" text-align="center" text-anchor="middle">C1</tspan></text>
+     <text x="80.51593" y="93.330139" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="80.51593" y="93.330139" font-size="7.0556px" stroke-width=".44097" text-align="center" text-anchor="middle">C10</tspan></text>
+     <text x="65.280426" y="86.715752" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="65.280426" y="86.715752" font-size="7.0556px" stroke-width=".44097" text-align="center" text-anchor="middle">C9</tspan></text>
+     <text x="65.280426" y="130.71545" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="65.280426" y="130.71545" font-size="7.0556px" stroke-width=".44097" text-align="center" text-anchor="middle">C6</tspan></text>
+     <text x="95.632095" y="130.71545" text-align="center" style="line-height:1.25" xml:space="preserve"><tspan x="95.632095" y="130.71545" font-size="7.0556px" stroke-width=".44097" text-align="center" text-anchor="middle">C4</tspan></text>
+    </g>
+    <text x="112.39805" y="99.098259" style="line-height:1.25" xml:space="preserve"><tspan x="112.39805" y="99.098259" font-size="7.0556px" stroke-width=".44097">C2</tspan></text>
+    <text x="112.39805" y="118.61874" style="line-height:1.25" xml:space="preserve"><tspan x="112.39805" y="118.61874" font-size="7.0556px" stroke-width=".44097">C3</tspan></text>
+    <text x="48.63459" y="118.46555" text-align="end" text-anchor="end" style="line-height:1.25" xml:space="preserve"><tspan x="48.63459" y="118.46555" font-size="7.0556px" stroke-width=".44097" text-align="end" text-anchor="end">C7</tspan></text>
+    <text x="48.651817" y="99.098259" text-align="end" text-anchor="end" style="line-height:1.25" xml:space="preserve"><tspan x="48.651817" y="99.098259" font-size="7.0556px" stroke-width=".44097" text-align="end" text-anchor="end">C8</tspan></text>
+    <text x="80.51593" y="123.50634" text-align="center" text-anchor="middle" style="line-height:1.25" xml:space="preserve"><tspan x="80.51593" y="123.50634" font-size="7.0556px" stroke-width=".44097" text-align="center" text-anchor="middle">C5</tspan></text>
+   </g>
+  </g>
+ </g>
+ <metadata>
+  <rdf:RDF>
+   <cc:License rdf:about="http://creativecommons.org/licenses/by/4.0/">
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/>
+    <cc:requires rdf:resource="http://creativecommons.org/ns#Notice"/>
+    <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution"/>
+    <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/>
+   </cc:License>
+   <cc:Work rdf:about="">
+    <cc:license rdf:resource="http://creativecommons.org/licenses/by/4.0/"/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+</svg>
