@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/689645998.svg)](https://zenodo.org/badge/latestdoi/689645998)
+
 # Overlap calculator
 This script can calculate the overlap between two pi systems as described in my PhD thesis. There are multiple ways to use this app.
 
@@ -20,5 +22,5 @@ This script can calculate the overlap between two pi systems as described in my 
 If you have used these scripts in your research cite the following two references
  - P. N. Ruth, Method Development for Benchmarking Key Interactions in Quantum Crystallography, p. 39, http://dx.doi.org/10.53846/goediss-9798
 
- - To be added when on github
+ - P. N. Ruth, Overlap calculator beta 0.1, DOI: 10.5281/zenodo.8332374
 
