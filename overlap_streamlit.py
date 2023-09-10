@@ -1,16 +1,16 @@
 import streamlit as st
-from io import StringIO
+from io import StringIO, BytesIO
 from overlap import options_from_config, overlap_calculation, log, formatter
 import logging
 import base64
 import textwrap
+import zipfile
 
 def render_svg(svg):
     """Renders the given svg string."""
     b64 = base64.b64encode(svg.encode('utf-8')).decode("utf-8")
     html = r'<img src="data:image/svg+xml;base64,%s"/>' % b64
     st.write(html, unsafe_allow_html=True)
-
 
 st.title('Overlap calculator beta')
 
@@ -261,7 +261,6 @@ if all(conditions):
     ch.setFormatter(formatter)
     log.addHandler(ch)
 
-    draw['output_file'] = 'web.display'
     try:
         overlap, fig = overlap_calculation(stringio, dataset_name, atoms_string1, atoms_string2, direction_string, reference, search_values, draw)
     except Exception as e:
@@ -270,5 +269,34 @@ if all(conditions):
 
     st.pyplot(fig)
 
-    st.code((log_stream.getvalue()), language=None)
+    txt_output = log_stream.getvalue()
+    st.code((txt_output), language=None)
+
+    zip_bool = st.checkbox(
+        'Create Output zip (takes significantly longer to process/reload)'
+    )
+    if zip_bool:
+        references_output = textwrap.dedent("""
+            P. N. Ruth, Method Development for Benchmarking Key Interactions in Quantum Crystallography, p. 39, http://dx.doi.org/10.53846/goediss-9798
+
+            P. N. Ruth, Overlap calculator beta 0.1, DOI: 10.5281/zenodo.8332374
+        """).strip()
+
+        fig_buffer = BytesIO()
+        fig.savefig(fig_buffer, format='png')
+        #fig_buffer.seek(0)
+
+        zip_buffer = BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'a', zipfile.ZIP_DEFLATED, False) as zip_file:
+            zip_file.writestr('overlap_log.txt', txt_output)
+            zip_file.writestr('references.txt', references_output)
+            zip_file.writestr('overlap.png', fig_buffer.getvalue())
+        st.download_button(
+            'Download as zip file',
+            zip_buffer.getvalue(),
+            'overlap.zip',
+            mime='application/zip'
+        )
+
+
 
