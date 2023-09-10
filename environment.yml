@@ -1,0 +1,11 @@
+name: overlap
+channels:
+  - defaults
+dependencies:
+  - streamlit
+  - numpy
+  - matplotlib
+  - python
+  - shapely
+  - pandas
+prefix: C:\ProgramData\Anaconda3\envs\overlap
