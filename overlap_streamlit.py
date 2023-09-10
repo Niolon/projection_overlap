@@ -32,7 +32,7 @@ st.markdown(textwrap.dedent("""
 
     - P. N. Ruth, Method Development for Benchmarking Key Interactions in Quantum Crystallography, p. 39, http://dx.doi.org/10.53846/goediss-9798
 
-    - P. N. Ruth, Overlap calculator beta 0.1, DOI: 10.5281/zenodo.8332374
+    - P. N. Ruth, Overlap calculator beta 0.1.1, DOI: 10.5281/zenodo.8332656
 
     ### Program
 
