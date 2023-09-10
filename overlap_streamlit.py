@@ -89,7 +89,8 @@ if search_mol2:
         'Minimal distance between two atoms in overlapping moieties.',
         min_value=0.0,
         max_value=20.0,
-        value=0.7
+        value=0.7,
+        step=0.1
     )
     with st.expander("See explanation"):
         st.markdown(textwrap.dedent("""
@@ -103,7 +104,8 @@ if search_mol2:
         'Maximal distance between two atoms in overlapping moieties.',
         min_value=1.0,
         max_value=22.0,
-        value=5.0
+        value=5.0,
+        step=0.1
     )
 
     with st.expander("See explanation"):
@@ -118,7 +120,8 @@ if search_mol2:
         'Maximal angle between molecular planes in degree.',
         min_value=0.0,
         max_value=90.0,
-        value=45.0
+        value=45.0,
+        step=1.0
     )
 
     with st.expander("See explanation"):
@@ -132,7 +135,8 @@ if search_mol2:
         'Minimal overlap to be considered in the the search in percent.',
         min_value=0.0,
         max_value=100.0,
-        value=1.
+        value=1.,
+        step=1.0
     )
     with st.expander("See explanation"):
         st.markdown(textwrap.dedent("""
@@ -221,7 +225,8 @@ with st.expander("Plotting options"):
         'Line width of the drawn polygon edges',
         min_value=0.0,
         max_value=50.0,
-        value=3.0
+        value=3.0,
+        step=0.1
     )
 
 
