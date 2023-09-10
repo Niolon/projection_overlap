@@ -98,6 +98,10 @@ reference_colour = #7EA8BE
 ; Colour of the edges of both polygons/molecules
 edge_colour = #a0a0a0
 
+; line width for outline of polygons in graphics
+line_width = 1.5
+
+
 ; Filename of the graphics output file. See matplotlib for all file options.
 ; Useful ones should be .png, .pdf and .svg
 output_file = overlap.png
@@ -1061,8 +1065,8 @@ def overlap_calculation(cif_fo, dataset_name: str, atoms_string1: str, atoms_str
         cells to search for translational symmetry ('n_neighbour_cells').
     draw : Dict[str, Union[str, int]]
         Dictionary with drawing instructions. Includes colors for overlap, remaining area, and
-        polygon edges ('overlap_colour', 'reference_colour', 'edge_colour'), filename for output
-        ('output_file'), and output dpi ('output_dpi').
+        polygon edges ('overlap_colour', 'reference_colour', 'edge_colour'), the polygon line
+        width ('line_width'), filename for output ('output_file'), and output dpi ('output_dpi').
 
     Returns
     -------
