@@ -19,7 +19,7 @@ st.markdown(textwrap.dedent("""
 
     This script calculates the overlap between two moieties as the quotient of
     projected areas. This means the mean plane through a first moiety is determined.
-    Subsequently the atomic positions of both moieties are projected onto that plane
+    Subsequently, the atomic positions of both moieties are projected onto that plane
     and two polygons are constructed from the two investigated moieties. The overlap
     can now be calculated as the quotient of the intersection area and the area of the
     first moiety polygon.
@@ -28,7 +28,7 @@ st.markdown(textwrap.dedent("""
 
     ### References:
 
-    If you use this website in you research cite the following two references.
+    If you use this website in your research cite the following two references.
 
     - P. N. Ruth, Method Development for Benchmarking Key Interactions in Quantum Crystallography, p. 39, http://dx.doi.org/10.53846/goediss-9798
 
@@ -36,7 +36,7 @@ st.markdown(textwrap.dedent("""
 
     ### Program
 
-    The program will runand output the result once all necessary information has been filled in and will adapt interactively (Thanks to Streamlit).
+    The program will run and output the result once all necessary information has been filled in and will adapt interactively (Thanks to Streamlit).
 
 """).strip())
 
