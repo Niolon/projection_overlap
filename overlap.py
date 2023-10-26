@@ -895,7 +895,7 @@ def draw_polygons(coords_cent_rot1: np.ndarray, coords_cent_rot2: np.ndarray, re
 
     if isinstance(intersection, shapely.MultiPolygon):
         # Intersection forms multiple polygons
-        for intersec_poly in intersection.polygons:
+        for intersec_poly in intersection.geoms:
             inter_x, inter_y = intersec_poly.exterior.xy
             ax.fill(inter_x, inter_y, facecolor=draw['overlap_colour'], edgecolor='#00000000')
     else:
