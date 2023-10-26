@@ -101,7 +101,6 @@ edge_colour = #a0a0a0
 ; line width for outline of polygons in graphics
 line_width = 1.5
 
-
 ; Filename of the graphics output file. See matplotlib for all file options.
 ; Useful ones should be .png, .pdf and .svg
 output_file = overlap.png
@@ -894,8 +893,14 @@ def draw_polygons(coords_cent_rot1: np.ndarray, coords_cent_rot2: np.ndarray, re
     else:
         raise NotImplementedError('Reference for draw not implemented. Use Molecule1, Mulecule2 or Both')
 
-    inter_x, inter_y = intersection.exterior.xy
-    ax.fill(inter_x, inter_y, facecolor=draw['overlap_colour'], edgecolor='#00000000')
+    if isinstance(intersection, shapely.MultiPolygon):
+        # Intersection forms multiple polygons
+        for intersec_poly in intersection.polygons:
+            inter_x, inter_y = intersec_poly.exterior.xy
+            ax.fill(inter_x, inter_y, facecolor=draw['overlap_colour'], edgecolor='#00000000')
+    else:
+        inter_x, inter_y = intersection.exterior.xy
+        ax.fill(inter_x, inter_y, facecolor=draw['overlap_colour'], edgecolor='#00000000')
 
     for start, end in zip(concat1[:-1], concat1[1:]):
         ax.plot(
