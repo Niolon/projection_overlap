@@ -13,9 +13,9 @@ This script can calculate the overlap between two pi systems as described in my 
       *   Activate the environment with conda activate overlap (This needs to be done every time you start a console)
    3.  Alternatively, you can install the packages manually.
        Requirements are: numpy, pandas, shapely, matplotlib and streamlit
-   4.  Start the program with: "streamlit run A:\unzip_folder\overlap_streamlit.py". It might ask you for a mail
-       address, which is skippable. Afterwards a browser tab should open automatically if it does not, the console has
-       the correct web address.
+   4.  Go with your commandline to the folder where you unpacked the files and start the program with: "streamlit run overlap_streamlit.py".
+       It might ask you for a mail address, which is skippable (and comes from streamlit not this project). Afterwards a browser tab should
+       open automatically if it does not, the console has the correct web address.
 3. Starting the command line program with "python overlap.py"
 
 ## References
