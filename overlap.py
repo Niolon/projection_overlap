@@ -151,7 +151,9 @@ def ciflike_to_dict(
     ValueError
         The return_descr was in an invalid type
     """
-    PATTERN = re.compile(r'''((?:[^ "']|"[^"]*"|'[^']*')+)''')
+    # Updated pattern to correctly handle apostrophes in the middle of words
+    PATTERN = re.compile(r'''('([^']*)'|"([^"]*)"|(\S+))''')
+    
     lines = [line for line in cif_fo.readlines()]
     datablocks = OrderedDict()
     current_loop_lines = []
@@ -176,7 +178,10 @@ def ciflike_to_dict(
                 if len(current_loop_lines) > 0:
                     new_df = pd.DataFrame(current_loop_lines)
                     for key in new_df:
-                        new_df[key] = pd.to_numeric(new_df[key], errors='ignore')
+                        try: 
+                            new_df[key] = pd.to_numeric(new_df[key])
+                        except: 
+                            new_df[key] = new_df[key]
                     if resolve_esd:
                         for column in new_df.columns:
                             if new_df[column].dtype != 'O':
@@ -206,8 +211,16 @@ def ciflike_to_dict(
             elif in_loop:
                 # This line contains data within a loop
                 in_loop_titles = False
-                line_split = [item.strip() for item in PATTERN.split(line) if item != '' and not item.isspace()]
-                line_split = [item[1:-1] if "'" in item else item for item in line_split]
+                
+                line_split = []
+                for match in PATTERN.finditer(line):
+                    if match.group(2) is not None:  # Single-quoted value
+                        line_split.append(match.group(2))
+                    elif match.group(3) is not None:  # Double-quoted value
+                        line_split.append(match.group(3))
+                    else:  # Unquoted value
+                        line_split.append(match.group(4))
+                
                 current_line_collect += line_split
                 if len(current_line_collect) == len(current_loop_titles):
                     current_loop_lines.append(OrderedDict())
@@ -216,8 +229,15 @@ def ciflike_to_dict(
                     current_line_collect = []
             elif line.startswith('_'):
                 # we are not in a loop -> single line or multiline string entry
-                line_split = [item.strip() for item in PATTERN.split(line) if item != '' and not item.isspace()]
-                line_split = [item[1:-1] if "'" in item else item for item in line_split]
+                line_split = []
+                for match in PATTERN.finditer(line):
+                    if match.group(2) is not None:  # Single-quoted value
+                        line_split.append(match.group(2))
+                    elif match.group(3) is not None:  # Double-quoted value
+                        line_split.append(match.group(3))
+                    else:  # Unquoted value
+                        line_split.append(match.group(4))
+                
                 if len(line_split) > 1:
                     if resolve_esd:
                         test = line_split[1]
@@ -266,7 +286,10 @@ def ciflike_to_dict(
         if len(current_loop_lines) > 0:
             new_df = pd.DataFrame(current_loop_lines)
             for key in new_df:
-                new_df[key] = pd.to_numeric(new_df[key], errors='ignore')
+                try: 
+                    new_df[key] = pd.to_numeric(new_df[key])
+                except: 
+                    new_df[key] = new_df[key]
             if resolve_esd:
                 for column in new_df.columns:
                     if new_df[column].dtype != 'O':
@@ -285,7 +308,7 @@ def ciflike_to_dict(
         return datablocks[return_descr]
     else:
         raise ValueError('Invalid return_descr value. Must be either None, index as int or name as str')
-
+    
 def split_error(string: str) -> Union[Tuple[float, float], Tuple[int, int]]:
     """Helper function to split a string containing a value with error in
     brackets to a value-esd pair
